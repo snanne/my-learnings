@@ -7,7 +7,7 @@ import { getMainDefinition } from "@apollo/client/utilities";
 const httpLink = new HttpLink({
   uri: "https://gridstar-hasura-demo.hasura.app/v1/graphql",
   headers: {
-    "x-hasura-admin-secret": "CczDlOIxVQITSc0JyderkFk5i2a8mvC05WyDe6jQZupOc3HHDDMLkTHIO6hzJvWL",
+    "x-hasura-admin-secret": import.meta.env.VITE_SECRET_KEY,
   },
 });
 
@@ -17,7 +17,7 @@ const wsLink = new GraphQLWsLink(
     url: "wss://gridstar-hasura-demo.hasura.app/v1/graphql", // WebSocket endpoint
     connectionParams: {
       headers: {
-        "x-hasura-admin-secret": "CczDlOIxVQITSc0JyderkFk5i2a8mvC05WyDe6jQZupOc3HHDDMLkTHIO6hzJvWL",
+        "x-hasura-admin-secret": import.meta.env.VITE_SECRET_KEY,
       },
     },
   })
