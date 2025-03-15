@@ -5,7 +5,7 @@ import { getMainDefinition } from "@apollo/client/utilities";
 
 // Create an HTTP link for queries and mutations
 const httpLink = new HttpLink({
-  uri: "https://gridstar-hasura-demo.hasura.app/v1/graphql",
+  uri: import.meta.env.VITE_GRAPHQL_URL,
   headers: {
     "x-hasura-admin-secret": import.meta.env.VITE_SECRET_KEY,
   },
@@ -14,7 +14,7 @@ const httpLink = new HttpLink({
 // WebSocket link for subscriptions (make sure your Hasura instance supports WebSocket)
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "wss://gridstar-hasura-demo.hasura.app/v1/graphql", // WebSocket endpoint
+    url: import.meta.env.VITE_WS_GRAPHQL_URL, // WebSocket endpoint
     connectionParams: {
       headers: {
         "x-hasura-admin-secret": import.meta.env.VITE_SECRET_KEY,
@@ -28,12 +28,12 @@ const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
     return (
-      definition.kind === 'OperationDefinition' &&
-      definition.operation === 'subscription'
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
     );
   },
   wsLink,
-  httpLink,
+  httpLink
 );
 
 // Create Apollo Client with the split link
